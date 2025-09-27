@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>APT-J2 Keyboard Layout - Ergonomic Optimization</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-bg: #0a0a0a;
+            --secondary-bg: #1a1a1a;
+            --accent-bg: #2a2a2a;
+            --primary-text: #ffffff;
+            --secondary-text: #b0b0b0;
+            --accent-text: #00d4ff;
+            --highlight: #ff6b35;
+            --success: #4caf50;
+            --warning: #ff9800;
+            --error: #f44336;
+            --border: #333333;
+            --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --glow: 0 0 20px rgba(0, 212, 255, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--primary-bg);
+            color: var(--primary-text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            z-index: 1000;
+            padding: 1rem 0;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent-text);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--secondary-text);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-text);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: var(--gradient);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: var(--glow);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--secondary-text);
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: var(--accent-text);
+            color: var(--primary-bg);
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--glow);
+        }
+
+        /* Sections */
+        .section {
+            padding: 5rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .section-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 2.5rem;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--accent-text);
+        }
+
+        /* Keyboard Display */
+        .keyboard-container {
+            background: var(--secondary-bg);
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .keyboard {
+            display: grid;
+            gap: 0.5rem;
+            font-family: 'JetBrains Mono', monospace;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .keyboard-row {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+        }
+
+        .key {
+            background: var(--accent-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem;
+            min-width: 60px;
+            text-align: center;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .key:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--glow);
+            background: var(--accent-text);
+            color: var(--primary-bg);
+        }
+
+        .key.wide {
+            min-width: 120px;
+        }
+
+        .key.space {
+            min-width: 300px;
+        }
+
+        .key.special {
+            background: var(--highlight);
+        }
+
+        .key.modifier {
+            background: var(--warning);
+            color: var(--primary-bg);
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .stat-card {
+            background: var(--secondary-bg);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            border: 1px solid var(--border);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .stat-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent-text);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--secondary-text);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Interactive Demo */
+        .typing-demo {
+            background: var(--secondary-bg);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .text-display {
+            background: var(--primary-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.2rem;
+            line-height: 1.8;
+            margin-bottom: 1rem;
+            min-height: 120px;
+        }
+
+        .input-area {
+            width: 100%;
+            background: var(--accent-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.1rem;
+            color: var(--primary-text);
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .demo-controls {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            justify-content: center;
+        }
+
+        .control-button {
+            padding: 0.5rem 1rem;
+            background: var(--accent-bg);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--primary-text);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .control-button:hover {
+            background: var(--accent-text);
+            color: var(--primary-bg);
+        }
+
+        /* Comparison Section */
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .layout-card {
+            background: var(--secondary-bg);
+            border-radius: 12px;
+            padding: 2rem;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .layout-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .layout-name {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--accent-text);
+            margin-bottom: 1rem;
+        }
+
+        .layout-preview {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            line-height: 1.4;
+            background: var(--primary-bg);
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+
+        /* Download Section */
+        .download-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .download-card {
+            background: var(--secondary-bg);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .download-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .download-icon {
+            font-size: 3rem;
+            color: var(--accent-text);
+            margin-bottom: 1rem;
+        }
+
+        .download-button {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            background: var(--accent-text);
+            color: var(--primary-bg);
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .download-button:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--glow);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--secondary-bg);
+            padding: 3rem 0;
+            text-align: center;
+            border-top: 1px solid var(--border);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            color: var(--accent-text);
+            margin-bottom: 1rem;
+        }
+
+        .footer-section a {
+            color: var(--secondary-text);
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: var(--accent-text);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid var(--border);
+            padding-top: 2rem;
+            color: var(--secondary-text);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .keyboard-row {
+                flex-wrap: wrap;
+            }
+
+            .key {
+                min-width: 45px;
+                padding: 0.8rem;
+                font-size: 0.9rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--primary-bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent-text);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--highlight);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav container">
+            <a href="#" class="logo">APT-J2</a>
+            <ul class="nav-links">
+                <li><a href="#overview">Overview</a></li>
+                <li><a href="#demo">Demo</a></li>
+                <li><a href="#comparison">Compare</a></li>
+                <li><a href="#download">Download</a></li>
+                <li><a href="#docs">Docs</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content fade-in-up">
+            <h1>APT-J2</h1>
+            <p>Advanced ergonomic keyboard layout optimized for high in-roll patterns and angle-mod compatibility</p>
+            <a href="#demo" class="cta-button">Try Interactive Demo</a>
+        </div>
+    </section>
+
+    <!-- Overview Section -->
+    <section id="overview" class="section">
+        <div class="container">
+            <h2 class="section-title">Layout Overview</h2>
+            
+            <div class="keyboard-container">
+                <div class="keyboard">
+                    <div class="keyboard-row">
+                        <div class="key">1</div>
+                        <div class="key">2</div>
+                        <div class="key">3</div>
+                        <div class="key">4</div>
+                        <div class="key">5</div>
+                        <div class="key">6</div>
+                        <div class="key">7</div>
+                        <div class="key">8</div>
+                        <div class="key">9</div>
+                        <div class="key">0</div>
+                        <div class="key">=</div>
+                        <div class="key">{</div>
+                        <div class="key wide">⌫</div>
+                    </div>
+                    <div class="keyboard-row">
+                        <div class="key">w</div>
+                        <div class="key special">c</div>
+                        <div class="key">m</div>
+                        <div class="key">p</div>
+                        <div class="key">k</div>
+                        <div class="key special">:</div>
+                        <div class="key">l</div>
+                        <div class="key">u</div>
+                        <div class="key">o</div>
+                        <div class="key">y</div>
+                        <div class="key">-</div>
+                        <div class="key">[</div>
+                        <div class="key">\</div>
+                    </div>
+                    <div class="keyboard-row">
+                        <div class="key">r</div>
+                        <div class="key">s</div>
+                        <div class="key">t</div>
+                        <div class="key">h</div>
+                        <div class="key special">b</div>
+                        <div class="key">j</div>
+                        <div class="key">n</div>
+                        <div class="key">e</div>
+                        <div class="key">a</div>
+                        <div class="key">i</div>
+                        <div class="key special">?</div>
+                        <div class="key wide">⏎</div>
+                    </div>
+                    <div class="keyboard-row">
+                        <div class="key">g</div>
+                        <div class="key">d</div>
+                        <div class="key">f</div>
+                        <div class="key">v</div>
+                        <div class="key">z</div>
+                        <div class="key">q</div>
+                        <div class="key">x</div>
+                        <div class="key">,</div>
+                        <div class="key">.</div>
+                        <div class="key">'</div>
+                        <div class="key modifier">⇧</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value">42.1%</div>
+                    <div class="stat-label">In-Roll Percentage</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">1.2%</div>
+                    <div class="stat-label">Same Finger Usage</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">28.4%</div>
+                    <div class="stat-label">Same Hand Usage</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">Angle-Mod</div>
+                    <div class="stat-label">Optimized For</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Demo Section -->
+    <section id="demo" class="section">
+        <div class="container">
+            <h2 class="section-title">Interactive Demo</h2>
+            
+            <div class="typing-demo">
+                <div class="text-display" id="textDisplay">
+                    The quick brown fox jumps over the lazy dog. This pangram contains every letter of the alphabet and helps demonstrate the ergonomic flow of the APT-J2 layout.
+                </div>
+                <textarea 
+                    class="input-area" 
+                    id="inputArea" 
+                    placeholder="Start typing here to test the APT-J2 layout feel..."
+                    spellcheck="false"
+                ></textarea>
+                <div class="demo-controls">
+                    <button class="control-button" onclick="loadSampleText()">
+                        <i class="fas fa-file-text"></i> Load Sample
+                    </button>
+                    <button class="control-button" onclick="clearText()">
+                        <i class="fas fa-trash"></i> Clear
+                    </button>
+                    <button class="control-button" onclick="toggleKeyboard()">
+                        <i class="fas fa-keyboard"></i> Show/Hide Keys
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Comparison Section -->
+    <section id="comparison" class="section">
+        <div class="container">
+            <h2 class="section-title">Layout Comparison</h2>
+            
+            <div class="comparison-grid">
+                <div class="layout-card">
+                    <div class="layout-name">QWERTY</div>
+                    <div class="layout-preview">
+┌─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┐
+│  q  │  w  │  e  │  r  │  t  │  y  │  u  │  i  │  o  │  p  │  [  │  ]  │  \  │
+├─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┤
+│  a  │  s  │  d  │  f  │  g  │  h  │  j  │  k  │  l  │  ;  │  '  │     │     │
+├─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┤     │
+│  z  │  x  │  c  │  v  │  b  │  n  │  m  │  ,  │  .  │  /  │     │ ⇧   │     │
+└─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┘
+                    </div>
+                    <p>Traditional layout with high same-finger usage and inefficient finger travel patterns.</p>
+                </div>
+
+                <div class="layout-card">
+                    <div class="layout-name">APT-J2</div>
+                    <div class="layout-preview">
+┌─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┐
+│  1  │  2  │  3  │  4  │  5  │  6  │  7  │  8  │  9  │  0  │  =  │  {  │ ⌫   │
+├─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┤
+│  w  │  c  │  m  │  p  │  k  │  :  │  l  │  u  │  o  │  y  │  -  │  [  │  \  │
+├─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┤
+│  r  │  s  │  t  │  h  │  b  │  j  │  n  │  e  │  a  │  i  │  ?  │     │     │
+├─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┤     │
+│  g  │  d  │  f  │  v  │  z  │  q  │  x  │  ,  │  .  │  '  │     │ ⇧   │     │
+└─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┘
+                    </div>
+                    <p>Optimized for high in-roll patterns with strategic punctuation placement and angle-mod compatibility.</p>
+                </div>
+
+                <div class="layout-card">
+                    <div class="layout-name">Dvorak</div>
+                    <div class="layout-preview">
+┌─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┐
+│  '  │  ,  │  .  │  p  │  y  │  f  │  g  │  c  │  r  │  l  │  /  │  =  │  \  │
+├─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┤
+│  a  │  o  │  e  │  u  │  i  │  d  │  h  │  t  │  n  │  s  │  -  │     │     │
+├─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┤     │
+│  ;  │  q  │  j  │  k  │  x  │  b  │  m  │  w  │  v  │  z  │     │ ⇧   │     │
+└─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┘
+                    </div>
+                    <p>Vowel-focused design with high same-hand usage but improved finger alternation.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Download Section -->
+    <section id="download" class="section">
+        <div class="container">
+            <h2 class="section-title">Download & Install</h2>
+            
+            <div class="download-grid">
+                <div class="download-card">
+                    <div class="download-icon">
+                        <i class="fab fa-windows"></i>
+                    </div>
+                    <h3>Windows</h3>
+                    <p>Microsoft Keyboard Layout Creator package</p>
+                    <a href="#" class="download-button" onclick="downloadWindows()">
+                        <i class="fas fa-download"></i> Download .KLC
+                    </a>
+                </div>
+
+                <div class="download-card">
+                    <div class="download-icon">
+                        <i class="fab fa-apple"></i>
+                    </div>
+                    <h3>macOS</h3>
+                    <p>Ukelele keyboard layout bundle</p>
+                    <a href="#" class="download-button" onclick="downloadMacOS()">
+                        <i class="fas fa-download"></i> Download .bundle
+                    </a>
+                </div>
+
+                <div class="download-card">
+                    <div class="download-icon">
+                        <i class="fab fa-linux"></i>
+                    </div>
+                    <h3>Linux</h3>
+                    <p>XKB configuration files</p>
+                    <a href="#" class="download-button" onclick="downloadLinux()">
+                        <i class="fas fa-download"></i> Download .xkb
+                    </a>
+                </div>
+
+                <div class="download-card">
+                    <div class="download-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h3>Source Code</h3>
+                    <p>GitHub repository with all files</p>
+                    <a href="#" class="download-button" onclick="downloadSource()">
+                        <i class="fab fa-github"></i> View on GitHub
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Resources</h3>
+                    <a href="#docs">Documentation</a>
+                    <a href="#comparison">Layout Comparison</a>
+                    <a href="#download">Installation Guide</a>
+                    <a href="#faq">FAQ</a>
+                </div>
+                <div class="footer-section">
+                    <h3>Community</h3>
+                    <a href="https://github.com/">GitHub Repository</a>
+                    <a href="https://reddit.com/r/KeyboardLayouts">Reddit Community</a>
+                    <a href="https://discord.gg/keyboard">Discord Server</a>
+                </div>
+                <div class="footer-section">
+                    <h3>Acknowledgments</h3>
+                    <a href="https://github.com/Apsu/APT">APTv3 by Apsu Eve</a>
+                    <a href="https://cyanophage.github.io/">Keyboard Analyzer</a>
+                    <a href="https://monkeytype.com">MonkeyType</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 APT-J2 Layout. Based on APTv3 by Apsu Eve. Released under open source license.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Interactive Demo Functions
+        const sampleTexts = [
+            "The quick brown fox jumps over the lazy dog. This pangram contains every letter of the alphabet.",
+            "APT-J2 is an optimized keyboard layout designed for ergonomic typing and high in-roll patterns.",
+            "Keyboard layouts have evolved significantly since the QWERTY design of the 19th century.",
+            "Programming requires efficient access to punctuation marks and special characters.",
+            "The angle-mod technique improves typing comfort by reducing finger travel distance."
+        ];
+
+        let currentTextIndex = 0;
+        let startTime = null;
+        let isTyping = false;
+
+        function loadSampleText() {
+            const textDisplay = document.getElementById('textDisplay');
+            currentTextIndex = (currentTextIndex + 1) % sampleTexts.length;
+            textDisplay.textContent = sampleTexts[currentTextIndex];
+            clearText();
+        }
+
+        function clearText() {
+            const inputArea = document.getElementById('inputArea');
+            inputArea.value = '';
+            startTime = null;
+            isTyping = false;
+        }
+
+        function toggleKeyboard() {
+            const keyboard = document.querySelector('.keyboard-container');
+            keyboard.style.display = keyboard.style.display === 'none' ? 'block' : 'none';
+        }
+
+        // Typing statistics
+        document.getElementById('inputArea').addEventListener('input', function(e) {
+            if (!startTime && e.target.value.length > 0) {
+                startTime = Date.now();
+                isTyping = true;
+            }
+            
+            if (isTyping) {
+                updateTypingStats();
+            }
+        });
+
+        function updateTypingStats() {
+            // This would calculate WPM, accuracy, etc.
+            // For demo purposes, we'll just show a console log
+            console.log('Typing stats updated');
+        }
+
+        // Download functions
+        function downloadWindows() {
+            alert('Windows .KLC file download would start here. This is a demo - the actual file would be generated from the layout configuration.');
+        }
+
+        function downloadMacOS() {
+            alert('macOS .bundle download would start here. This is a demo - the actual file would be generated from the layout configuration.');
+        }
+
+        function downloadLinux() {
+            alert('Linux .xkb file download would start here. This is a demo - the actual file would be generated from the layout configuration.');
+        }
+
+        function downloadSource() {
+            alert('GitHub repository would open here. This contains all source code and configuration files.');
+        }
+
+        // Smooth scrolling for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add fade-in animation to elements as they come into view
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in-up');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all sections and cards
+        document.querySelectorAll('.section, .stat-card, .layout-card, .download-card').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Keyboard key hover effects
+        document.querySelectorAll('.key').forEach(key => {
+            key.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-5px) scale(1.1)';
+            });
+            
+            key.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+
+        console.log('APT-J2 Keyboard Layout Website Loaded');
+        console.log('Layout optimized for angle-mod technique with 42.1% in-roll patterns');
+    </script>
+</body>
+</html>
